@@ -1,0 +1,266 @@
+{% extends 'myapp/base.html' %}
+{% load staticfiles %}
+
+
+{% block body_block %}
+    <!-- MAIN CONTENT -->
+    <div id="content-block">
+        <div class="container be-detail-container">
+            <div class="row">
+                <div class="col-xs-12 col-md-3 left-feild">
+                    <div class="be-vidget back-block">
+                        <a class="btn full color-1 size-1 hover-1" href="/myapp/myprofile/"><i
+                                class="fa fa-chevron-left"></i>back to profile</a>
+                    </div>
+                    <div class="be-vidget hidden-xs hidden-sm" id="scrollspy">
+                        <h3 class="letf-menu-article">
+                            Choose Category
+                        </h3>
+                        <div class="creative_filds_block">
+                            <ul class="ul nav">
+                                <li class="edit-ln"><a href="#basic-information">Basic Information</a></li>
+                                <li class="edit-ln"><a href="#about-me">About Me</a></li>
+                                <li class="edit-ln"><a href="#edit-password">Edit Password</a></li>
+                                <li class="edit-ln"><a href="#on-the-web">Other Social Networks</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-xs-12 col-md-9 _editor-content_">
+                    <div class="sec" data-sec="basic-information">
+                        <div class="be-large-post">
+                            <div class="info-block style-2">
+                                <div class="be-large-post-align "><h3 class="info-block-label">Basic Information</h3>
+                                </div>
+                            </div>
+                            <form method="post" action="" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="be-large-post-align">
+                                    <div class="be-change-ava">
+                                        <a class="be-ava-user style-2" href="">
+                                            {% if user.user_pic %}
+                                                <img src="{{ user.user_pic.url }}" alt="">
+                                            {% endif %}
+                                            <input title="Upload Image" class="btn color-4 size-2 hover-7" type="file"
+                                                   name="user_pic" {{ user.user_pic }}>
+
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="be-large-post-align">
+                                    <div class="row">
+                                        <div class="input-col col-xs-12 col-sm-6">
+                                            <div class="form-group fg_icon focus-2">
+                                                <div class="form-label">First Name</div>
+                                                <input class="form-input" type="text" name="first_name"
+                                                       value="{{ user.first_name }}" {{ user.first_name }}>
+                                            </div>
+                                        </div>
+                                        <div class="input-col col-xs-12 col-sm-6">
+                                            <div class="form-group focus-2">
+                                                <div class="form-label">Last Name</div>
+                                                <input class="form-input" type="text" name="last_name"
+                                                       value="{{ user.last_name }}" {{ user.last_name }}>
+                                            </div>
+                                        </div>
+
+                                        <div class="input-col col-xs-12">
+                                            <div class="form-group focus-2">
+                                                <div class="form-label">Email</div>
+                                                <input class="form-input" type="text" value="{{ user.email }}"
+                                                       placeholder="email" name="email" {{ user.email }}>
+                                            </div>
+                                        </div>
+                                        <div class="input-col col-xs-12 col-sm-6">
+                                            <div class="form-label">Country</div>
+											<input autocomplete="on" style="font-size: 13px;
+    line-height: 50px;
+    font-weight: 400;
+    color: #b4b7c1;
+    width: 100%;
+    height: 50px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border: 1px solid #edeff2;
+    border-radius: 3px;" class="form-input" type="text" value="{{ user.user_country }}"
+                                                        name="user_country" {{ user.user_country }}>
+                                        </div>
+                                        <div class="input-col col-xs-12 col-sm-6">
+                                            <div class="form-group focus-2">
+                                                <div class="form-label">City</div>
+                                                <input class="form-input" type="text" value="{{ user.user_city }}"
+                                                       name="user_city" {{ user.user_city }}>
+                                            </div>
+                                        </div>
+                                        <div class="input-col col-xs-12">
+                                            <div class="form-group focus-2">
+                                                <div class="form-label">Website URL</div>
+                                                <input class="form-input" type="" value="{{ user.user_web_url }}"
+                                                       name="user_web_url" {{ user.user_web_url }}>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <button class="btn color-1 size-2 hover-1 btn-right" type="submit"
+                                                    value="save" name="info_sav">SAVE
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="sec" data-sec="about-me">
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="be-large-post">
+                                <div class="info-block style-2">
+                                    <div class="be-large-post-align"><h3 class="info-block-label">About Me</h3></div>
+                                </div>
+                                <div class="be-large-post-align">
+                                    <div class="row">
+                                        <div class="input-col col-xs-12">
+                                            <div class="form-group focus-2">
+                                                <div class="form-label">Description</div>
+                                                <input class="form-input" type="text"
+                                                       placeholder="{{ user.user_abtme_desc }}"
+                                                       name="user_abtme_desc" {{ user.user_abtme_desc }}>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-xs-12">
+                                    <button class="btn color-1 size-2 hover-1 btn-right" type="submit"
+                                            value="save" name="abtme_sav" style="margin: 10px 50px 30px 0px">SAVE
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="sec" data-sec="edit-password">
+                        <div class="be-large-post">
+                            <div class="info-block style-2">
+                                <div class="be-large-post-align"><h3 class="info-block-label">Password</h3></div>
+                            </div>
+                            <form method="post">
+                                {% csrf_token %}
+                                <div class="be-large-post-align">
+                                    <div class="row">
+                                        <div class="input-col col-xs-12 col-sm-4">
+                                            <div class="form-group focus-2">
+                                                <div class="form-label">Old Password</div>
+                                                <input class="form-input" type="password" placeholder=""
+                                                       name="old_password">
+                                            </div>
+                                        </div>
+                                        <div class="input-col col-xs-12 col-sm-4">
+                                            <div class="form-group focus-2">
+                                                <div class="form-label">New Password</div>
+                                                <input class="form-input" type="password" placeholder="" name="password"
+                                                        {{ user.password }}>
+                                            </div>
+                                        </div>
+                                        <div class="input-col col-xs-12 col-sm-4">
+                                            <div class="form-group focus-2">
+                                                <div class="form-label">Repeat Password</div>
+                                                <input class="form-input" type="password" placeholder=""
+                                                       name="rep_password">
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <button class="btn color-1 size-2 hover-1 btn-right" name="pass_sav">
+                                                change password
+                                            </button>
+                                        </div>
+                                        <label name="pass_err"></label>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="sec" data-sec="on-the-web">
+                        <div class="be-large-post m-social">
+                            <div class="info-block style-2">
+                                <div class="be-large-post-align"><h3 class="info-block-label">Other Social Networks</h3>
+                                </div>
+                            </div>
+                            <div class="be-large-post-align">
+                                <div class="social-input form-group focus-2">
+                                    <div class="s_icon">
+                                        <div class="social-bars"><i class="fa fa-bars"></i></div>
+                                        <a class="social-btn color-1" href="blog-detail-2.html"><i
+                                                class="fa fa-facebook"></i></a>
+                                    </div>
+                                    <div class="s_input">
+                                        <input class="form-input" type="text" value="http:// facebook.com/username">
+                                    </div>
+                                </div>
+                                <div class="social-input form-group focus-2">
+                                    <div class="s_icon">
+                                        <div class="social-bars"><i class="fa fa-bars"></i></div>
+                                        <a class="social-btn color-2" href="blog-detail-2.html"><i
+                                                class="fa fa-twitter"></i></a>
+                                    </div>
+                                    <div class="s_input">
+                                        <input class="form-input" type="text" value="http:// twitter.com/username">
+                                    </div>
+                                </div>
+                                <div class="social-input form-group focus-2">
+                                    <div class="s_icon">
+                                        <div class="social-bars"><i class="fa fa-bars"></i></div>
+                                        <a class="social-btn color-3" href="blog-detail-2.html"><i
+                                                class="fa fa-google-plus"></i></a>
+                                    </div>
+                                    <div class="s_input">
+                                        <input class="form-input" type="text" value="http:// googleplus.com/username">
+                                    </div>
+                                </div>
+                                <div class="social-input form-group focus-2">
+                                    <div class="s_icon">
+                                        <div class="social-bars"><i class="fa fa-bars"></i></div>
+                                        <a class="social-btn color-4" href="blog-detail-2.html"><i
+                                                class="fa fa-pinterest-p"></i></a>
+                                    </div>
+                                    <div class="s_input">
+                                        <input class="form-input" type="text" value="http:// pinterest.com/username">
+                                    </div>
+                                </div>
+                                <div class="social-input form-group focus-2">
+                                    <div class="s_icon">
+                                        <div class="social-bars"><i class="fa fa-bars"></i></div>
+                                        <a class="social-btn color-5" href="blog-detail-2.html"><i
+                                                class="fa fa-instagram"></i></a>
+                                    </div>
+                                    <div class="s_input">
+                                        <input class="form-input" type="text" value="http:// instagram.com/username">
+                                    </div>
+
+                                </div>
+                                <div class="social-input form-group focus-2">
+                                    <div class="s_icon">
+                                        <div class="social-bars"><i class="fa fa-bars"></i></div>
+                                        <a class="social-btn color-5" href="blog-detail-2.html"><i
+                                                class="fa fa-linkedin"></i></a>
+                                    </div>
+                                    <div class="s_input">
+                                        <input class="form-input" type="text" value="http:// linkedin.com/username">
+                                    </div>
+
+                                </div>
+                                <div class="col-xs-12">
+                                    <button class="btn color-1 size-2 hover-1 btn-right" type="submit"
+                                            value="save" name="info_sav" style="margin-right: -15px">SAVE
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,201 @@
+{% extends 'myapp/base.html' %}
+{% load staticfiles %}
+
+
+{% block body_block %}
+    <!-- MAIN CONTENT -->
+    {% if postdet %}
+        <div id="content-block">
+            <div class="container custom-container be-detail-container">
+                <div class="row">
+                    <div class="col-md-9 col-md-push-3">
+                        <div class="be-large-post">
+                            <div class="info-block">
+                            <form method="post"style="margin-left: 15px; float: left">
+                                    {% csrf_token %}
+                                        {% if user.username == postdet.post_user.username  %}
+                                            <span><i class="fa fa-heart"></i>{{ fav_count }}</span>
+                                        {% else %}
+                                            {% if fa_user %}
+                                                <button style="border: 0; background-color: #EDEFF2; float: left; margin-right: 25px;" name="del_fav"><i class="fa fa-heart"></i>{{ fav_count }}</button>
+                                            {% else %}
+                                                <button style="border: 0; background-color: #EDEFF2; float: left; margin-right: 25px" name="add_fav"><i class="fa fa-heart"></i>{{ fav_count }}</button>
+                                            {% endif %}
+                                        {% endif %}
+                            </form>
+                                <form method="post" style="margin-left: 15px">
+                                    {% csrf_token %}
+                                    <div class="be-large-post-align">
+                                        {% if user.username == postdet.post_user.username  %}
+                                            <span><i class="fa fa-thumbs-o-up"></i>{{ likes_count }}</span>
+                                        {% else %}
+                                            {% if like_user %}
+                                                <button style="border: 0; background-color: #EDEFF2; margin-right: 25px" name="del_like"><i class="fa fa-thumbs-o-up"></i>{{ likes_count }}</button>
+                                            {% else %}
+                                                <button style="border: 0; background-color: #EDEFF2; margin-right: 25px" name="add_like"><i class="fa fa-thumbs-o-up"></i>{{ likes_count }}</button>
+                                            {% endif %}
+                                        {% endif %}
+                                </form>
+                                <span><i class="fa fa-comment-o"></i> {{ c }}</span>
+
+                                    </div>
+                            </div>
+                            <div class="blog-content popup-gallery be-large-post-align">
+                                <h5 class="be-post-title to">
+                                    {{ postdet.post_title }}
+                                </h5>
+                                <div class="clear"></div>
+                                <div class="post-text">
+
+
+                                    <div class="image-block">
+                                        <a class="popup-a" href="{% static '' %}">
+                                            {% if postdet.post_file %}
+                                                <embed autostart=0 style="width: 718px; height: 500px"
+                                                       src="{{ postdet.post_file.url }}"></embed>
+                                                {% elif postdet.post_video_url %}
+                                                <iframe style="margin: auto" id="player" type="text/html" width="715.5" height="390"
+  src="{{ postdet.post_video_url }}"
+  frameborder="0"></iframe>
+                                            {% else %}
+                                                <embed style="width: 718px; height: 500px"
+                                                       src="{{ postdet.post_disp_img.url }}"></embed>
+                                            {% endif %}
+                                        </a>
+                                        <div class="image-text"></div>
+                                    </div>
+                                    {% if postdet.post_desc %}
+                                        <p>{{ postdet.post_desc }}</p>
+                                    {% endif %}
+
+                                </div>
+                            </div>
+                            <div class="be-large-post-align">
+                                <h3 class="letf-menu-article">
+                                    Tags
+                                </h3>
+                                <div class="tags_block clearfix">
+                                    <ul>
+                                        <a href="">{{ postdet.tags.all|join:", " }}</a>
+                                    </ul>
+                                </div>
+                                {% if user.username == postdet.post_user.username %}
+                                    <form method="post">
+                            {% csrf_token %}
+                            <button class="btn color-1 size-2 hover-1 btn-right" value="" name="del_pst">Delete Post</button>
+                        </form>
+                                {% else %}
+                                    {% endif %}
+                            </div>
+                        </div>
+                        <div class="row">
+
+                        </div>
+                        <div class="be-comment-block">
+                            <h1 class="comments-title">Comments ({{ c }})</h1>
+
+                            <form name="AddCommentsForm" method="post">
+                                {% csrf_token %}
+                                <div class="add_comment" style="margin-bottom: 100px">
+                                    <textarea name="comm_desc" {{ comments.comm_desc }}
+                                              title="Add Comment" style="width: 706px; height: 120px"></textarea><br/>
+                                    <button class="btn color-1" name="add_comment"
+                                        style="float: right; padding: 10px; margin-right: 0 !important;
+                                         margin-top: 5px"> Add Comment</button>
+                                </div>
+                            </form>
+                        {% if comments %}
+                            {% for c in comments %}
+                                {% if c.comm_post_id == postdet.id %}
+                            <div class="be-comment">
+                                <div class="be-img-comment">
+                                    <a href="blog-detail-2.html">
+                                        <img src="{{ c.comm_user.user_pic.url }}" alt="" class="be-ava-comment">
+                                    </a>
+                                </div>
+                                <div class="be-comment-content">
+
+										<span class="be-comment-name">
+											<a href="blog-detail-2.html">{{ c.comm_user.first_name }} {{ c.comm_user.last_name }}</a>
+											</span>
+                                    <span class="be-comment-time">
+											<i class="fa fa-clock-o"></i>
+											{{ c.comm_publish_date }} at {{ c.comm_publish_time }}
+										</span>
+
+                                    <p class="be-comment-text">{{ c.comm_desc }}</p>
+                                </div>
+                            </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-md-pull-9 left-feild">
+                        <div class="be-user-block">
+                            <div class="be-user-detail">
+                                <a class="be-ava-user" href="/myapp/userprofile/{{ user_2.id }}">
+                                    {% if user_2.user_pic %}
+                                    <img src="{{ postdet.post_user.user_pic.url }}" style="border-radius: 50%;" crop="fill"
+                                          alt="">
+                                    {% else %}
+                                        <img src="{% static 'myapp/img/default_user.jpg' %}" style="border-radius: 50%;" crop="fill"
+                                          alt="">
+                                     {% endif %}
+                                </a>
+                                {% if user_2 %}
+
+                                <a href="/myapp/userprofile/{{ user_2.id }}"><p class="be-use-name">
+                                    {{ postdet.post_user.first_name }} {{ postdet.post_user.last_name }}</p></a>
+                                <span class="be-user-info">
+                                    {% endif %}
+								{{ postdet.post_user.user_city }}, {{ postdet.post_user.user_country }}
+							</span>
+                            </div>
+                            <div class="be-user-activity-block">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        {% if user.username == postdet.post_user.username %}
+                                            {% else %}
+                                            {% if postdet.post_user in following %}
+                                                <form method="post">
+                                                {% csrf_token %}
+                                                <button name="del_rel"
+                                                        style="padding: 5px 5px 5px 5px !important;"
+                                                        class="be-user-activity-button be-follow-type">FOLLOWING</button>
+                                                </form>
+                                                {% else %}
+                                                <form method="post">
+                                                {% csrf_token %}
+                                        <button name="add_rel"  class="be-user-activity-button be-follow-type"><i
+                                                class="fa fa-plus"></i>FOLLOW</button>
+                                                </form>
+                                                {% endif %}
+                                            {% endif %}
+                                    </div>
+                                    <div class="col-lg-6">
+                                        {% if postdet.post_user in user_f %}
+                                        <a href="/myapp/messages/{{ user_2.id }}"
+                                           class="col-lg-6 be-user-activity-button send-btn be-message-type"><i
+                                                class="fa fa-envelope-o"></i>MESSAGE</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <h5 class="be-title">
+                                {{ postdet.post_user.user_abtme_title }}
+                            </h5>
+                            <p class="be-text-userblock">
+                                {{ postdet.post_user.user_abtme_desc }}
+                            </p>
+                        </div>
+
+                    </div>
+                    <div class="pagination">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

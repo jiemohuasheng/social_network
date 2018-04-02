@@ -1,0 +1,289 @@
+{% extends 'myapp/base.html' %}
+{% load staticfiles %}
+
+{% block header_block %}
+    <!-- THE HEADER -->
+    <header>
+<script type="text/javascript">
+window.onload = function () {
+	document.getElementById("password").onchange = validatePassword;
+	document.getElementById("password2").onchange = validatePassword;
+}
+function validatePassword(){
+var pass2=document.getElementById("password2").value;
+var pass1=document.getElementById("password").value;
+if(pass1!=pass2)
+	document.getElementById("password2").setCustomValidity("Passwords Don't Match");
+else
+	document.getElementById("password2").setCustomValidity('');
+//empty string means no validation error
+}
+</script>
+        <div class="container-fluid custom-container">
+            <div class="row no_row row-header">
+                <div class="brand-be">
+                    <a href="/myapp/">
+                        <img class="logo-c active be_logo" src="{% static 'myapp/img/RJ_Network1.png' %}" alt="logo">
+                        <img class="logo-c be_logo" src="{% static 'myapp/img/RJ_Network1.png' %}" alt="logo2">
+                        <img class="logo-c be_logo" src="{% static 'myapp/img/RJ_Network1.png' %}" alt="logo3">
+                        <img class="logo-c be_logo" src="{% static 'myapp/img/RJ_Network1.png' %}" alt="logo4">
+                    </a>
+                </div>
+                <div class="header-menu-block">
+                    <button class="cmn-toggle-switch cmn-toggle-switch__htx"><span></span></button>
+
+                </div>
+                <div class="login-header-block">
+                    <div class="login_block">
+                        <a class="btn-login btn color-1 size-2 hover-2" href=""><i class="fa fa-user"></i>
+                            Log in</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+{% endblock %}
+
+
+{% block body_block %}
+    <!-- MAIN CONTENT -->
+    <div id="content-block">
+        <div class="head-bg">
+            <div class="head-bg-img"></div>
+            <div class="head-bg-content">
+                <h1>Explore the World and Cover the Distance</h1>
+                <p>The world is in your grasp. Come and join now.</p>
+                <a class="be-register btn color-3 size-1 hover-6"><i class="fa fa-lock"></i>sign up now</a>
+            </div>
+        </div>
+    <p style="color: red; text-align: center; margin-top: 20px">{{ ret_message }}{{ rat_message2 }} {{ sucess_msg }}</p>
+    </div>
+{% endblock %}
+
+
+{% block footer_block %}
+    <footer style="margin-top: -10px">
+        <div class="footer-bottom" style="margin-top: 9%">
+            <div class="container-fluid custom-container">
+                <div class="col-md-12 footer-end clearfix">
+                    <div class="left">
+                        <span class="copy">© 2018. All rights reserved.</span>
+                        <span class="created">Created with LOVE by Julia & Rahul.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+{% endblock %}
+
+{% block popup_block %}
+    <div class="be-fixed-filter"></div>
+
+    <div class="large-popup login">
+        <div class="large-popup-fixed"></div>
+        <div class="container large-popup-container">
+            <div class="row">
+                <div class="col-md-8 col-md-push-2 col-lg-6 col-lg-push-3  large-popup-content">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <i class="fa fa-times close-button"></i>
+                            <h5 class="large-popup-title">Log in</h5>
+                        </div>
+                        <form action="./"  method="post" class="popup-input-search">
+                            {% csrf_token %}
+                            <div class="col-md-6">
+                                <input class="input-signtype" name="username" type="text" required=""
+                                       placeholder="Your username" {{ user.username }}>
+                            </div>
+                            <div class="col-md-6">
+                                <input class="input-signtype" name="password" type="password" required=""
+                                       placeholder="Password" {{ user.password }}>
+                            </div>
+                            <div class="col-xs-6">
+                                <a href="/myapp/forgot-password/" class="link-large-popup">Forgot password?</a>
+                            </div>
+                            <div class="col-xs-6 for-signin">
+                                <input type="submit" class="be-popup-sign-button" value="SIGN IN" name="signin">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="large-popup register">
+        <div class="large-popup-fixed"></div>
+        <div class="container large-popup-container">
+            <div class="row">
+                <div class="col-md-10 col-md-push-1 col-lg-8 col-lg-push-2 large-popup-content">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <i class="fa fa-times close-button"></i>
+                            <h5 class="large-popup-title">Register</h5>
+                        </div>
+                        <form action="./" method="post" class="popup-input-search">
+                            {% csrf_token %}
+                            <div class="col-md-6">
+                                <input class="input-signtype" name="first_name" type="text" required=""
+                                       placeholder="First Name" {{ user.first_name }}>
+                            </div>
+                            <div class="col-md-6">
+                                <input class="input-signtype" type="text" required="" placeholder="Last Name"
+                                       name="last_name" {{ user.last_name }}>
+                            </div>
+                            <div class="col-md-6">
+                                <input class="input-signtype" type="text" required="" placeholder="Username"
+                                       name="username" {{ user.username }}>
+                            </div>
+                            <div class="col-md-6">
+                                <input class="input-signtype" type="text" required="" placeholder="Email"
+                                       name="email" {{ user.email }}>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="be-custom-select-block">
+                                    <select class="be-custom-select" name="user_sec_ques"
+                                                {{ user.user_sec_ques }}>
+                                        <option value="" disabled selected name="user_sec_ques"
+                                                {{ user.user_sec_ques }}>
+                                            Security Question
+                                        </option>
+                                        <option value="What is your favorite movie?">
+                                            What is your favorite movie?</option>
+                                        <option value="Who is your favorite actor?">
+                                            Who is your favorite actor?</option>
+                                        <option value="When is your first time swimming?">
+                                            When is your first time swimming?</option>
+                                        <option value="What is your favorite color?">
+                                            What is your favorite color?</option>
+                                        <option value="Who is your father's name?">Who is your father's name?</option>
+                                        <option value="What is your passport ID?">What is your passport ID?</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <input class="input-signtype" type="text" required="" placeholder="Answer"
+                                       name="user_sec_ans" {{ user.user_sec_ans }}>
+                            </div>
+
+                            <div class="col-md-12 be-date-block">
+							<span class="large-popup-text">
+								Date of birth
+							</span>
+                                <div class="be-custom-select-block mounth">
+                                    <select class="be-custom-select" name="user_dob_month" {{ user.user_dob_month }}>
+                                        <option value="" disabled selected
+                                                name="user_dob_month" {{ user.user_dob_month }}>
+                                            Month
+                                        </option>
+                                        <option value="January">January</option>
+                                        <option value="February">February</option>
+                                        <option value="March">March</option>
+                                        <option value="April">April</option>
+                                        <option value="May">May</option>
+                                        <option value="June">June</option>
+                                        <option value="July">July</option>
+                                        <option value="August">August</option>
+                                        <option value="September">September</option>
+                                        <option value="October">October</option>
+                                        <option value="November">November</option>
+                                        <option value="December">December</option>
+                                    </select>
+                                </div>
+                                <div class="be-custom-select-block">
+                                    <select class="be-custom-select"name="user_dob_date" {{ user.user_dob_date }}>
+                                        <option value="" disabled selected
+                                                name="user_dob_date" {{ user.user_dob_date }}>
+                                            Day
+                                        </option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                        <option value="11">11</option>
+                                        <option value="12">12</option>
+                                        <option value="13">13</option>
+                                        <option value="14">14</option>
+                                        <option value="15">15</option>
+                                        <option value="16">16</option>
+                                        <option value="17">17</option>
+                                        <option value="18">18</option>
+                                        <option value="19">19</option>
+                                        <option value="20">20</option>
+                                        <option value="21">21</option>
+                                        <option value="22">22</option>
+                                        <option value="23">23</option>
+                                        <option value="24">24</option>
+                                        <option value="25">25</option>
+                                        <option value="26">26</option>
+                                        <option value="27">27</option>
+                                        <option value="28">28</option>
+                                        <option value="29">29</option>
+                                        <option value="30">30</option>
+                                        <option value="31">31</option>
+                                    </select>
+                                </div>
+                                <div class="be-custom" style="float: right; margin-right: 387px">
+                                    <input class="input-signtype" type="text" required="" placeholder="Year"
+                                       name="user_dob_year" {{ user.user_dob_year }}>
+                                    {% comment %}<select class="be-custom-select"
+                                            name="user_dob_year" {{ user.user_dob_year }}>
+>
+                                        <option value="" disabled selected
+                                                name="user_dob_year" {{ user.user_dob_year }}>
+                                            Year
+                                        </option>
+                                        <option value="1">1960</option>
+                                        <option value="2">1961</option>
+                                        <option value="3">1962</option>
+                                        <option value="4">1963</option>
+                                        <option value="5">1964</option>
+                                        <option value="6">1965</option>
+                                        <option value="7">1966</option>
+                                        <option value="8">1967</option>
+                                        <option value="9">1998</option>
+                                        <option value="10">1999</option>
+                                        <option value="11">2000</option>
+                                        <option value="12">2001</option>
+                                    </select>{% endcomment %}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <input class="input-signtype" type="password" required=""
+                                       placeholder="Password" id="password"
+                                       name="password" {{ user.password }}>
+
+                            </div>
+                            <div class="col-md-6">
+                                <input class="input-signtype" type="password" required="" name="rep_password"
+                                       placeholder="Repeat Password" id="password2">
+                            </div>
+                            <div class="col-md-6">
+                                <div class="be-checkbox">
+                                    <label class="check-box">
+                                        <input class="checkbox-input" type="checkbox" required="" value=""> <span
+                                            class="check-box-sign"></span>
+                                    </label>
+                                    <span class="large-popup-text">
+									I have read and agree to the <a class="be-popup-terms">
+                                        Terms of Use</a> and <a
+                                            class="be-popup-terms">Privacy Policy</a>.
+								</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 for-signin">
+                                <input type="submit" class="be-popup-sign-button" name="signup"
+                                       value="SIGN Up">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,192 @@
+{% extends 'myapp/base.html' %}
+{% load staticfiles %}
+
+
+{% block body_block %}
+
+<!-- MAIN CONTENT -->
+<div id="content-block" style="margin-top: 10%">
+    <div class="container-fluid cd-main-content custom-container">
+        <div class="row" style="margin-left: 8%">
+            <div class="col-md-2 left-feild" style="margin:-40px 0px 20px 1022px">
+               {% comment %}  <form action="./"  method="post" class="input-search">
+                        {% csrf_token %}
+                        <input type="text" name="username" required placeholder="Enter keyword">
+                        <i class="fa fa-search"></i>
+                        <input type="submit" name="srch" value="">
+                        <button name="srch"></button>
+                 </form>{% endcomment %}
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid custom-container">
+        <div class="row">
+
+            <div class="col-md-2 left-feild">
+
+                <div class="be-vidget">
+                    <h3 class="letf-menu-article">
+                        Recent Posts
+                    </h3>
+                    <div class="tags_block clearfix">
+                        <ul>
+                            {% if get_post %}
+                                {% for p in get_post %}
+                                    <li>
+                                        <a style="text-align: start; width: 194.83px; height: 28px;  margin: 0px 0px 1px 0px; margin-bottom: 10px; overflow: hidden" href="/myapp/postdetail/{{ p.id }}" data-filter=".category-1" class="filter">{{ p.post_title }}</a></li>
+                                {% endfor %}
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="be-vidget">
+                    <h3 class="letf-menu-article">
+                        Popular Tags
+                    </h3>
+                    <div class="creative_filds_block">
+                        <div class="ul">
+                            {% if get_post %}
+                                {% for p in get_post %}
+                                    <a data-filter=".category-1" class="filter">{{ p.tags.all|join:", " }} </a>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-10">
+                <div id="container-mix" class="row _post-container_">
+                    {% if post_dt %}
+                        {% for post in post_dt  %}
+                            {% for u in user_t %}
+                                {% if post.post_user.username == u.username %}
+                        <div style="margin-left: 7px;">
+                                        <div style="padding: 10px; float: left">
+                                            <div class="be-post" style="border-radius: 8px">
+                                            <a href="/myapp/postdetail/{{ post.id }}" class="be-img-block">
+                                                {% if post.post_disp_img %}
+                                                <img src="{{ post.post_disp_img.url }}" class="be-img-block"
+                                                                                 style="width: 245px; height: 160px; border-radius: 8px; ">
+                                                    {% else %}
+                                                    <embed style="width: 228px; height: 140px; border-radius: 8px" src="{{ post.post_file.url }}"></embed>
+
+                                                {% endif %}
+                                            </a>
+											<a href="/myapp/postdetail/{{ post.id }}" class="be-post-title" style="width: 215px">{{ post.post_title }}
+                                            </a>										<span>
+												<a href="" class="be-post-tag" style="text-align: center">{{ post.post_publish_date }}
+                                                 at {{ post.post_publish_time }}</a>
+											</span>
+                                            <div class="author-post">
+                                                {% if post.post_user.user_pic %}
+
+                                                    <a href="/myapp/userprofile/{{ post.post_user.id }}"><img src="{{ post.post_user.user_pic.url }}" style="width: 20px"></a>
+                                                {% else %}
+                                                {% endif %}
+												<span>by <a href="/myapp/userprofile/{{ post.post_user.id }}">{{ post.post_user.first_name }}
+                                                    {{ post.post_user.last_name }}</a></span>
+                                            </div>
+                                            <div class="info-block">
+												<span style="margin-left: 37px"><i class="fa fa-thumbs-o-up"></i> {{ post.like_set.count }}</span>
+												<span><i class="fa fa-heart"></i> {{ post.favourite_set.count }}</span>
+												<span><i class="fa fa-comment-o"></i> {{ post.comments_set.count }}</span>
+											</div>
+                                            </div>
+
+                                        </div>
+                                        </div>
+                                {% endif %}
+                                    {% endfor %}
+                        {% endfor %}
+                <div class="search-user">
+                    {% elif gt_user %}
+                        {% for u in gt_user %}
+                            <div  class="mix category-4 custom-column-5" style="width: 250px">
+                                                    <div class="be-user-block style-2">
+                                                        <a class="be-ava-user style-2" href="/myapp/userprofile/{{ u.id }}">
+                                                            {% if u.user_pic %}
+                                                            <img src="{{ u.user_pic.url }}" alt="">
+                                                                {% else %}
+                                                            {% endif %}
+                                                        </a>
+                                                        <div class="be-user-counter">
+                                                            <div class="c_number">{{ u.post_info_set.count }}</div>
+                                                            <div class="c_text">POSTS</div>
+                                                        </div>
+                                                        <a href="/myapp/userprofile/{{ u.id }}" class="be-use-name">
+                                                            {{ u.first_name }} {{ u.last_name }}
+                                                        </a>
+                                                        <p class="be-user-info">
+                                                            {{ u.user_city }}, {{ u.user_country }}
+                                                        </p>
+                                                        <div class="be-text-tags">
+                                                            {{ u.post_title }}
+                                                        </div>
+                                                        <div class="info-block">
+                                                        {% if post_d %}
+                                                            {% for p in post_d %}
+                                                            <span><i class="fa fa-thumbs-o-up"></i> {{ p.like_set.count }}</span>
+                                                            <span><i class="fa fa-heart"></i> {{ p.favourite_set.count }}</span>
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                        </div>
+                                                        <a class="btn color-1 size-2 hover-1" href="/myapp/userprofile/{{ u.id }}">View Profile</a>
+                                                        <a class="portfolio-link type-1 clearfix" href="">
+                                                            <img src="" alt="">
+									                        <img src="" alt="">
+									                        <img src="" alt="">
+									                        <div class="color_bg">
+                                                                <span>view portfolio</span>
+										                        <span class="child"></span>
+									                        </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                        {% endfor %}
+                        {% elif get_post %}
+                        {% for post in get_post %}
+                            <div>
+                                        <div style="padding: 10px; float: left">
+                                            <div class="be-post" style="border-radius: 8px; width: 230px; height: 349px">
+                                            <a href="/myapp/postdetail/{{ post.id }}" class="be-img-block">
+                                                {% if post.post_disp_img %}
+                                                <img src="{{ post.post_disp_img.url }}" class="be-img-block"
+                                                                                 style="width: 228px; height: 140px; border-radius: 8px">
+                                                    {% else %}
+                                                    <embed style="width: 228px; height: 140px; border-radius: 8px" src="{{ post.post_file.url }}"></embed>
+
+                                                {% endif %}
+                                            </a>
+											<a href="/myapp/postdetail/{{ post.id }}" class="be-post-title" style="width: 198px; height: 60px; overflow: hidden">{{ post.post_title }}
+                                            </a>										<span>
+												<a class="be-post-tag" style="text-align: center">{{ post.post_publish_date }}
+                                                 at {{ post.post_publish_time }}</a>
+											</span>
+                                            <div class="author-post">
+                                                {% if user_p.user_pic %}
+
+                                        <img src="{{ post.post_user.user_pic.url }}" style="width: 20px">
+                                                    {% else %}
+                                                {% endif %}
+												<span>by <a href="">{{ post.post_user.first_name }}
+                                                    {{ post.post_user.last_name }}</a></span>
+                                            </div>
+                                            <div class="info-block">
+												<span style="margin-left: 37px"><i class="fa fa-thumbs-o-up"></i> {{ post.like_set.count }}</span>
+												<span><i class="fa fa-heart"></i> {{ post.favourite_set.count }}</span>
+												<span><i class="fa fa-comment-o"></i> {{ post.comments_set.count }}</span>
+											</div>
+                                            </div>
+                                        </div>
+                                        </div>
+                        {% endfor %}
+                </div>
+                                {% endif %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

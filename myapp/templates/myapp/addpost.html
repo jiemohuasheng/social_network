@@ -1,0 +1,99 @@
+{% extends 'myapp/base.html' %}
+{% load staticfiles %}
+
+{% block body_block %}
+    <!-- MAIN CONTENT -->
+    <div id="content-block" class="work-box">
+    <script src="/js/jquery-1.4.4.js"></script>
+	<SCRIPT LANGUAGE="JavaScript">
+		function checkFields() {
+			name = document.submitform.name.value; //获取姓名
+			email = document.submitform.email.value; //获取邮箱
+			if((name == "") && (email == "")) { //如果两者都为空
+				alert("请输入姓名和邮箱！");
+				return false;
+			} else
+				return true;
+		}
+	</script>
+        <div class="work-area">
+            <div class="container be-detail-container">
+                <div class="row">
+                    <div class="col-xs-12 col-md-3 st-col left-feild">
+                        <div class="be-vidget behance-style" id="scrollspy">
+                            <h3 class="letf-menu-article">
+                                UPLOAD STEPS
+                            </h3>
+                            <div class="creative_filds_block" >
+                                <ul class="ul nav b-work-list">
+                                    <li class="edit-ln"><a href="#add-title"><i class="fa fa-text-width"></i>Add title</a></li>
+                                    <li class="edit-ln"><a href="#add-discription"><i class="fa fa-pencil-square-o"></i>Add description</a></li>
+                                    <li class="edit-ln"><a href="#upload-display"><i class="fa icon-features"></i>Upload display image</a></li>
+                                    <li class="edit-ln"><a href="#upload"><i class="fa fa-cloud-upload"></i>Upload File/Embed media</a></li>
+                                    <li class="edit-ln"><a href="add-tag"><i class="fa icon-worldwide"></i>Add tags</a></li>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-9 _editor-content_">
+                        <div>
+                            <div class="be-large-post large-area" style="height: 1060px">
+                                <div class="info-block style-2">
+                                    <div class="be-large-post-align "><h3 class="info-block-label">Add Post</h3></div>
+                                </div>
+                                <form method="post" action="" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div class="be-large-post-align">
+                                        <div class="upload-zone" style="border: hidden; background: white">
+                                            <div style="background: white;">
+                                                <div class="sec" data-sec="add-title" style="height: 83px;margin-bottom: 30px" >
+                                                    <p style="font-size: 13px; line-height: 18px; font-weight: 400; color: #383b43; margin-bottom: 15px; ">
+                                                        Title</p>
+                                                    <input required="required" name="post_title"
+                                                           style="font-size: 13px; line-height: 50px; font-weight: 400; color: #b4b7c1; width: 100%; height: 50px; padding-left: 20px; padding-right: 20px; border: 1px solid #edeff2; border-radius: 3px; ">
+                                                </div>
+                                                <div  class="sec" data-sec="add-discription" style="margin-bottom: 30px">
+                                                    <p style="font-size: 13px; line-height: 18px; font-weight: 400; color: #383b43; margin-bottom: 15px; ">
+                                                        Description</p>
+                                                    <textarea rows="6" cols="50" wrap="virtual" required="required"
+                                                              name="post_desc"
+                                                              style="font-size: 13px; line-height: 50px; font-weight: 400; color: #b4b7c1; width: 100%;padding-left: 20px; padding-right: 20px; border: 1px solid #edeff2; border-radius: 3px; ">
+
+                                                    </textarea>
+                                                </div>
+                                                <div  class="sec" data-sec="upload-display" style="margin-bottom: 30px;">
+                                                    <p style="font-size: 13px; line-height: 18px; font-weight: 400; color: #383b43; margin-bottom: 15px; ">
+                                                        Upload display image</p><input type="file" name="post_disp_img" required="required"  style="color: #b4b7c1; ">
+                                                </div>
+                                                <div class="sec" data-sec="upload" style="margin-bottom: 30px">
+                                                    <p style="font-size: 13px; line-height: 18px; font-weight: 400; color: #383b43; margin-bottom: 15px; ">
+                                                        Upload File</p><input type="file" name="post_file"  style="color: #b4b7c1; "> <p style="margin-top: 10px; margin-bottom: 10px; font-size: 20px; font-weight: 100">OR</p>
+
+
+                                                    <p style="font-size: 13px; line-height: 18px; font-weight: 400; color: #383b43; margin-bottom: 15px; ">
+                                                        Embeded Media</p><input name="post_video_url" onfocus="document.submitform.name.value='';"
+                                                                                style="font-size: 13px; line-height: 50px; font-weight: 400; color: #b4b7c1; width: 100%; height: 50px; padding-left: 20px; padding-right: 20px; border: 1px solid #edeff2; border-radius: 3px; ">
+                                                </div>
+                                                <div class="sec" data-sec="add-tag" style="margin-bottom: 30px">
+
+                                                    <p style="font-size: 13px; line-height: 18px; font-weight: 400; color: #383b43; margin-bottom: 15px; ">
+                                                        Tags</p><input required="required" name="tags" type="text"
+                                                                       style="font-size: 13px; line-height: 50px; font-weight: 400; color: #b4b7c1; width: 100%; height: 50px; padding-left: 20px; padding-right: 20px; border: 1px solid #edeff2; border-radius: 3px; ">
+                                                </div>
+                                                <button class="btn color-1 size-2 hover-1 btn-right" type="submit"
+                                                        value="save" name="save">SAVE
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

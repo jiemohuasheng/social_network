@@ -1,0 +1,149 @@
+{% extends 'myapp/base.html' %}
+{% load staticfiles %}
+
+
+{% block body_block %}
+	<!-- MAIN CONTENT -->
+	<div id="content-block">
+		<div class="container be-detail-container">
+			<div class="row">
+				<div class="col-xs-12 col-sm-5 left-feild">
+					<a href="/myapp/myprofile/" class="btn color-4 size-1 hover-7"><i class="fa fa-chevron-left"></i> back to profile</a>
+
+					<form>
+
+						<div class="noto-entry style-3">
+							<div class="noto-content clearfix">
+                                {% for u in user_f %}
+                                    {% if u.username == user.username %}
+                                        <div style="margin-top: 20px">
+								<div class="noto-img" >
+									<a href="/myapp/messages/{{ user_r.id }}">
+                                        {% if u.user_pic %}
+										<img src="{{ user_r.user_pic.url }}" style="height: 45px; width: 45px;" alt="" class="be-ava-comment">
+                                        {% else %}
+                                            <img src="{% static 'myapp/img/default_user.jpg' %}" style="height: 45px; width: 45px;" alt="" class="be-ava-comment">
+                                        {% endif %}
+									</a>
+								</div>
+								<div class="noto-text">
+									<div class="noto-text-top">
+										<span class="noto-name"><a href="/myapp/messages/{{ user_r.id }}">{{ user_r.first_name }} {{ user_r.last_name }}</a></span>
+										<span class="noto-date"><i class="fa fa-clock-o"></i> </span>
+									</div>
+									<div class="noto-message"></div>
+								</div>
+                                </div>
+                                    {% else %}
+                                <div style="margin-top: 20px">
+								<div class="noto-img" >
+									<a href="/myapp/messages/{{ u.id }}">
+                                        {% if u.user_pic %}
+										<img src="{{ u.user_pic.url }}" style="height: 45px; width: 45px;" alt="" class="be-ava-comment">
+                                        {% else %}
+                                            <img src="{% static 'myapp/img/default_user.jpg' %}" style="height: 45px; width: 45px;" alt="" class="be-ava-comment">
+                                        {% endif %}
+									</a>
+								</div>
+								<div class="noto-text">
+									<div class="noto-text-top">
+										<span class="noto-name"><a href="/myapp/messages/{{ u.id }}">{{ u.first_name }} {{ u.last_name }}</a></span>
+										<span class="noto-date"><i class="fa fa-clock-o"></i> </span>
+									</div>
+									<div class="noto-message"></div>
+								</div>
+                                </div>
+                                    {% endif %}
+                                {% endfor %}
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="col-xs-12 col-sm-7">
+					<div class="be-large-post">
+						<div class="info-block style-2">
+							<div class="be-large-post-align">
+                                                <h3 class="info-block-label">Message with {{ user_r.first_name }}</h3>
+
+							</div>
+						</div>
+						<div class="be-large-post-align">
+							<div class="be-comment">
+                                {% if message %}
+                                    {% for m in message %}
+                                        {% if m.msg_sender == user_p %}
+                                <div style="margin-left: 60px; margin-top: 20px">
+								<div class="be-img-comment">
+									<a href="/myapp/userprofile/{{ m.msg_sender.id }}">
+                                        {% if m.msg_sender.user_pic %}
+										<img src="{{ m.msg_sender.user_pic.url }}" style="margin-top: 10px" alt="" class="be-ava-comment">
+                                            {% else %}
+                                            <img src="{% static 'myapp/img/default_user.jpg' %}" style="margin-top: 10px" alt="" class="be-ava-comment">
+                                            {% endif %}
+									</a>
+								</div>
+								<div class="be-comment-content">
+										<span class="be-comment-name">
+											<a href="/myapp/userprofile/{{ m.msg_sender.id }}">{{ m.msg_sender.first_name }} {{ m.msg_sender.last_name }}</a>
+											</span>
+										<span class="be-comment-time">
+											<i class="fa fa-clock-o"></i>
+											{{ m.msg_publish_date }}, {{ m.msg_publish_time }}
+										</span>
+
+									<p class="be-comment-text">
+                                    {{ m.msg_content }}
+									</p>
+								</div>
+                                </div>
+                                {% elif m.msg_reciever == user_p %}
+                                <div style="margin-right: 60px; margin-top: 20px">
+								<div class="be-img-comment">
+									<a href="/myapp/userprofile/{{ m.msg_sender.id }}">
+                                        {% if m.msg_sender.user_pic %}
+										<img src="{{ m.msg_sender.user_pic.url }}" style="margin-top: 10px" alt="" class="be-ava-comment">
+                                            {% else %}
+                                            <img src="{% static 'myapp/img/default_user.jpg' %}" style="margin-top: 10px" alt="" class="be-ava-comment">
+
+                                            {% endif %}
+									</a>
+								</div>
+								<div class="be-comment-content">
+                                    <span class="be-comment-name">
+                                    	<a href="/myapp/userprofile/{{ m.msg_sender.id }}">{{ m.msg_sender.first_name }} {{ m.msg_sender.last_name }}</a>
+                                    </span>
+										<span class="be-comment-time">
+											<i class="fa fa-clock-o"></i>
+											{{ m.msg_publish_date }}, {{ m.msg_publish_time }}
+										</span>
+
+                                                <p class="be-comment-text">
+                                    {{ m.msg_content }}
+									</p>
+                                </div>
+                                </div>
+
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% endif %}
+							</div>
+
+
+							<form method="post">
+                                {% csrf_token %}
+								<div class="form-group">
+									<div class="form-label">Your Messages</div>
+									<textarea name="msg_content" class="form-input" required="" placeholder="Say something to {{ user_r.first_name }}"></textarea>
+								</div>
+								<button name="send_msg" class="btn btn-right color-1 size-2 hover-1">Send</button>
+							</form>
+						</div>
+					</div>				
+				</div>
+			</div>
+
+
+		</div>
+	</div>
+
+{% endblock %}

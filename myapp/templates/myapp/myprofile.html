@@ -1,0 +1,231 @@
+{% extends 'myapp/base.html' %}
+{% load staticfiles %}
+
+{% block body_block %}
+    <!-- MAIN CONTENT -->
+	<div id="content-block">
+		<div class="container be-detail-container">
+			<div class="row">
+				<div class="col-xs-12 col-md-4 left-feild">
+					<div class="be-user-block style-3">
+						<div class="be-user-detail" style="margin-bottom: 30px">
+							<a class="be-ava-user style-2">
+                                {% if user.user_pic %}
+								<img src="{{ user.user_pic.url }}" style="border-radius: 50%;", crop="fill">
+                                {% else %}
+                                    <img src="{% static 'myapp/img/default_user.jpg' %}" style="border-radius: 50%;", crop="fill">
+                                {% endif %}
+							</a>
+							<a class="be-ava-left btn color-1 size-2 hover-1" href="/myapp/useredit/"><i
+                                    class="fa fa-pencil"></i>Edit</a>
+							<a class="be-ava-right btn btn-share color-4 size-2 hover-7" href="/myapp/messages/{{ user.id }}">
+								<i class="fa fa-envelope-o"></i> Inbox
+							</a>
+							<a href="/myapp/userprofile/{{ user.id }}"><p class="be-use-name">{{ user.first_name }} {{ user.last_name }}</p></a>
+							<div class="be-user-info">
+								<p><img src="{% static 'myapp/img/location-logo.jpg'%}" width="20px"
+                                        style="margin-bottom: 5px;">  {{ user.user_city }},
+                                {{ user.user_country }}</p>
+							</div>
+
+							<div class="be-user-social">
+								<a class="social-btn color-1" href="#"><i class="fa fa-facebook"></i></a>
+								<a class="social-btn color-2" href="#"><i class="fa fa-twitter"></i></a>
+								<a class="social-btn color-3" href="#"><i class="fa fa-google-plus"></i></a>
+								<a class="social-btn color-5" href="#"><i class="fa fa-instagram"></i></a>
+								<a class="social-btn color-6" href="#"><i class="fa fa-linkedin"></i></a>
+							</div>
+                        </div>
+						<div class="be-user-statistic">
+                                <div class="stat-row clearfix"><i class="stat-icon icon-like-b"></i>Likes<span class="stat-counter">{{ user.like_set.count }}</span></div>
+
+
+							<div class="stat-row clearfix"><i class="stat-icon icon-followers-b"></i>Followers<span class="stat-counter">{{ followers }}</span></div>
+							<div class="stat-row clearfix"><i class="stat-icon icon-following-b"></i>Following<span class="stat-counter">{{ following }}</span></div>
+						</div>
+					</div>
+					<div class="be-desc-block">
+						<div class="be-desc-author">
+							<div class="be-desc-label">About Me</div>
+							<div class="clearfix"></div>
+							<div class="be-desc-text">
+								{{ user.user_abtme_desc }}
+							</div>
+  						</div>
+					</div>
+				</div>
+				<div class="col-xs-12 col-md-8">
+                    <div class="tab-wrapper style-1">
+                        <div class="tab-nav-wrapper">
+                            <div  class="nav-tab  clearfix">
+                                <div class="nav-tab-item active">
+                                    <span>Posts</span>
+                                </div>
+                                <div class="nav-tab-item ">
+                                    <span>Favorites</span>
+                                </div>
+                                <div class="nav-tab-item ">
+                                    <span>Followers</span>
+                                </div>
+                                <div class="nav-tab-item ">
+                                    <span>Following</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tabs-content clearfix">
+                         <div class="tab-info active">
+                            <div>
+                                {% if post_data %}
+                                    {% for post in post_data %}
+                                        <div>
+                                        <div style="padding: 10px; float: left">
+                                            <div class="be-post" style="border-radius: 8px; width: 230px; height: 349px">
+                                            <a href="/myapp/postdetail/{{ post.id }}" class="be-img-block">
+                                                {% if post.post_disp_img %}
+                                                <img src="{{ post.post_disp_img.url }}" class="be-img-block"
+                                                                                 style="width: 228px; height: 140px; border-radius: 8px">
+                                                    {% else %}
+                                                    <embed style="width: 228px; height: 140px; border-radius: 8px" src="{{ post.post_file.url }}"></embed>
+
+                                                {% endif %}
+                                            </a>
+											<a href="/myapp/postdetail/{{ post.id }}" class="be-post-title" style="width: 198px; height: 60px; overflow: hidden">{{ post.post_title }}
+                                            </a>										<span>
+												<a class="be-post-tag" style="text-align: center">{{ post.post_publish_date }}
+                                                 at {{ post.post_publish_time }}</a>
+											</span>
+                                            <div class="author-post">
+                                                {% if user.user_pic %}
+
+                                        <img src="{{ post.post_user.user_pic.url }}" style="width: 20px">
+                                                {% endif %}
+												<span>by <a href="">{{ post.post_user.first_name }}
+                                                    {{ post.post_user.last_name }}</a></span>
+                                            </div>
+                                            <div class="info-block">
+												<span style="margin-left: 37px"><i class="fa fa-thumbs-o-up"></i> {{ post.like_set.count }}</span>
+												<span><i class="fa fa-heart"></i> {{ post.favourite_set.count }}</span>
+												<span><i class="fa fa-comment-o"></i> {{ post.comments_set.count }}</span>
+											</div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                         </div>
+                        </div>
+                            <div class="tab-info">
+                                {% for l in fav_usr %}
+                            <div class="gallery-box clearfix">
+                                <div class="gallery-info" style="margin-left: -180px">
+                                    <div style="float: left; margin-left: -100px">
+                                    <a class="be-use-name" href="/myapp/userprofile/{{ l.fav_post.post_user.id }}">
+                                        {{ l.fav_post.post_user.first_name }} {{ l.fav_post.post_user.last_name }}</a>
+                                    </div>
+                                    <a class="gallery-a" style="width: 40px" href="/myapp/userprofile/{{ l.fav_post.post_user.id }}"><img src="{{ l.fav_post.post_user.user_pic.url }}"
+                                                                   alt="img" style="height: 80px; width: 80px; margin-top: 50px; margin-left:25px; border-radius: 50%; "></a>
+                                    <a href="/myapp/postdetail/{{ l.fav_post.id }}"> <h3 style="margin-left: 40px">{{ l.fav_post.post_title }}</h3></a>
+                                    <p style="margin-left: 40px">{{ l.fav_post.post_desc }}</p>
+                                </div>
+                            <div class="gallery-btn">
+                                <a class="btn-login btn color-1 size-2 hover-2" style="margin-top: 15px; color: white; text-align: center; padding-right: 5px !important;" href="/myapp/postdetail/{{ l.fav_post.id }}">
+                                    View Post
+                                </a>
+                            </div>
+				            </div>
+                                {% endfor %}
+                            </div>
+                            <div class="tab-info">
+                                <div>
+                                    {% if user_f %}
+                                        {% for u in user_f %}
+                                                <div  class="mix category-4 custom-column-5" style="width: 250px">
+                                                    <div class="be-user-block style-2">
+                                                        <a class="be-ava-user style-2" href="/myapp/userprofile/{{ u.id }}">
+                                                            {% if u.user_pic %}
+                                                            <img src="{{ u.user_pic.url }}" alt="">
+                                                            {% else %}
+                                                                <img src="{% static 'myapp/img/default_user.jpg' %}" alt="">
+                                                            {% endif %}
+                                                        </a>
+                                                        <div class="be-user-counter">
+                                                            <div class="c_number">{{ u.post_info_set.count }}</div>
+                                                            <div class="c_text">POSTS</div>
+                                                        </div>
+                                                        <a href="/myapp/userprofile/{{ u.id }}" class="be-use-name">
+                                                            {{ u.first_name }} {{ u.last_name }}
+                                                        </a>
+                                                        <p class="be-user-info">
+                                                            {{ u.user_city }}, {{ u.user_country }}
+                                                        </p>
+                                                        <div class="be-text-tags">
+                                                        </div>
+                                                        <div class="info-block">
+                                                            <span><i class="fa fa-thumbs-o-up"></i> {{ u.like_set.count }}</span>
+                                                            <span><i class="fa fa-heart"></i> {{ u.favourite_set.count }}</span>
+                                                        </div>
+
+                                                        <a href="/myapp/userprofile/{{ u.id }}" class="btn color-1 size-2 hover-1">View Profile</a>
+                                                        <a class="portfolio-link type-1 clearfix" href="">
+                                                            <img src="" alt="">
+									                        <img src="" alt="">
+									                        <img src="" alt="">
+									                        <div class="color_bg">
+                                                                <span>view portfolio</span>
+										                        <span class="child"></span>
+									                        </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="tab-info">
+                                <div style>
+                                    {% if user_r %}
+                                        {% for u in user_r %}
+                                                <div  class="mix category-4 custom-column-5" style="width: 250px">
+                                                    <div class="be-user-block style-2">
+                                                        <a class="be-ava-user style-2" href="/myapp/userprofile/{{ u.id }}">
+                                                            <img src="{{ u.user_pic.url }}" alt="">
+                                                        </a>
+                                                        <div class="be-user-counter">
+                                                            <div class="c_number">{{ u.post_info_set.count }}</div>
+                                                            <div class="c_text">POSTS</div>
+                                                        </div>
+                                                        <a href="/myapp/userprofile/{{ u.id }}" class="be-use-name">
+                                                            {{ u.first_name }} {{ u.last_name }}
+                                                        </a>
+                                                        <p class="be-user-info">
+                                                            {{ u.user_city }}, {{ u.user_country }}
+                                                        </p>
+                                                        <div class="be-text-tags">
+                                                        </div>
+                                                        <div class="info-block">
+                                                            <span><i class="fa fa-thumbs-o-up"></i> {{ u.like_set.count }}</span>
+                                                            <span><i class="fa fa-heart"></i> {{ u.favourite_set.count }}</span>
+                                                        </div>
+                                                        <a href="/myapp/userprofile/{{ u.id }}" class="btn color-1 size-2 hover-1">View Profile</a>
+                                                        <a class="portfolio-link type-1 clearfix" href="">
+                                                            <img src="" alt="">
+									                        <img src="" alt="">
+									                        <img src="" alt="">
+									                        <div class="color_bg">
+                                                                <span>view portfolio</span>
+										                        <span class="child"></span>
+									                        </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+				</div>
+			</div>
+		</div>
+{% endblock %}
